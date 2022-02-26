@@ -1,3 +1,4 @@
+import { ArticlesGuard } from './../guard/articles.guard';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { Routes } from '@angular/router';
@@ -7,8 +8,17 @@ export const productRoutes: Routes = [
     path: '',
     component: ProductListComponent,
   },
+
+  /* normal */
+  // {
+  //   path: ':name',
+  //   component: ProductDetailComponent,
+  // },
+
+  /* canActivateChild */
   {
     path: ':name',
-    component: ProductDetailComponent,
+    canActivateChild: [ArticlesGuard],
+    children: [{ path: '', component: ProductDetailComponent }],
   },
 ];
