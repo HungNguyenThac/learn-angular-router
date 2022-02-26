@@ -1,3 +1,4 @@
+import { ArticlesGuard } from './guard/articles.guard';
 import { HomeComponent } from './home/home.component';
 import { Routes } from '@angular/router';
 
@@ -8,6 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'product',
+    canActivate: [ArticlesGuard],
     loadChildren: () =>
       import('./product/product.module').then((m) => m.ProductModule),
   },
