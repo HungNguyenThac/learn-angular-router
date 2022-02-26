@@ -3,3 +3,9 @@ export interface IProduct {
   description: string;
   size: string;
 }
+
+export interface IUser {
+  username: string;
+  password: string;
+  name: string;
+}
