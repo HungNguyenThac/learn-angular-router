@@ -1,6 +1,9 @@
 <div *ngIf="productList">
   <ul>
-    <li *ngFor="let product of productList" (click)="handleClickItem(product)">
+    <li
+      *ngFor="let product of productList | async"
+      (click)="handleClickItem(product)"
+    >
       <!-- <a [routerLink]="['/detail', product.name]"> -->
       <h2>Tên sản phẩm: {{ product.name }}</h2>
       <h5>Mô tả sản phẩm: {{ product.description }}</h5>

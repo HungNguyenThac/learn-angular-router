@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'product',
-    canActivate: [ArticlesGuard],
+    canLoad: [ArticlesGuard],
     loadChildren: () =>
       import('./product/product.module').then((m) => m.ProductModule),
   },

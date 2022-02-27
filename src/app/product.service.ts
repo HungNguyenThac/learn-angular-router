@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, of, shareReplay } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { IProduct } from './model';
 
 @Injectable({
@@ -36,7 +36,7 @@ export class ProductService {
         description: 'Sản phẩm E',
         size: 'E',
       },
-    ]).subscribe((rs) => (this.productList = rs));
+    ]).pipe(map((rs) => (this.productList = rs)));
   }
 
   getProduct(name: string): IProduct | undefined {
@@ -70,7 +70,7 @@ export class ProductService {
         description: 'Sản phẩm E',
         size: 'E',
       },
-    ]).pipe(shareReplay());
+    ]);
   }
 
   getProduct2(name: string): Observable<IProduct | undefined> {
