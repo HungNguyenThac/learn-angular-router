@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, pluck } from 'rxjs';
 import { IProduct } from '../../model';
 import { ProductService } from '../../product.service';
@@ -13,7 +13,8 @@ export class ProductDetailComponent implements OnInit {
   product!: IProduct | undefined;
   constructor(
     private productService: ProductService,
-    private routes: ActivatedRoute
+    private routes: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -25,7 +26,9 @@ export class ProductDetailComponent implements OnInit {
         filter((product) => !!product)
       )
       .subscribe((rs) => (this.product = rs));
+  }
 
-    console.log(this.product);
+  handleClickEditProduct(name: string) {
+    this.router.navigate(['/product', name, 'edit']);
   }
 }

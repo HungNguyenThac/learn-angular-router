@@ -67,4 +67,8 @@ export class ArticlesGuard implements CanActivate, CanActivateChild, CanLoad {
 // các bước gần tương tự với canActivate
 // nhưng ở phía routes child, thêm key canActivateChild và trỏ tới guard xử lý
 
+/* canDeActivate */
+// canDeActivate sẽ kiểm tra xem có cho phép thoát khỏi component hay không? thường dùng trong trường hợp
+// xử lý form người dùng, nếu người dùng đã thay đổi form thì sẽ ko cho thoát khỏi component và cần xác nhận trước khi thoát khỏi component
+
 /* nếu return về urltree thì sẽ navigate hoặc redirect đến url mà mình return */

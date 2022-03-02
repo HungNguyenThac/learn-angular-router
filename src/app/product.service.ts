@@ -36,7 +36,7 @@ export class ProductService {
         description: 'Sản phẩm E',
         size: 'E',
       },
-    ]).pipe(map((rs) => (this.productList = rs)));
+    ]).subscribe((rs) => (this.productList = rs));
   }
 
   getProduct(name: string): IProduct | undefined {
