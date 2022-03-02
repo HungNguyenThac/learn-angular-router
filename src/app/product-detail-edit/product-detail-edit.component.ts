@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { filter, map, Observable, of, pluck, switchMap } from 'rxjs';
+import { filter, map, pluck, Observable, switchMap, of } from 'rxjs';
 import { IProduct } from './../model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from './../product.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-detail-edit',
@@ -17,10 +17,11 @@ export class ProductDetailEditComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private routes: ActivatedRoute,
+    private router: Router,
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
-      title: [''],
+      name: [''],
       description: [''],
       size: [''],
     });
@@ -40,7 +41,7 @@ export class ProductDetailEditComponent implements OnInit {
 
   initForm(product: IProduct | undefined): FormGroup {
     this.form.patchValue({
-      title: product?.name,
+      name: product?.name,
       description: product?.description,
       size: product?.size,
     });
