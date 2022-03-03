@@ -1,6 +1,12 @@
-import { filter, map, pluck, Observable, switchMap, of } from 'rxjs';
+import { CheckDeactivate } from './../check-deactivate';
+import { filter, map, pluck, Observable, switchMap, of, tap } from 'rxjs';
 import { IProduct } from './../model';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { ProductService } from './../product.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +16,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './product-detail-edit.component.html',
   styleUrls: ['./product-detail-edit.component.css'],
 })
-export class ProductDetailEditComponent implements OnInit {
+export class ProductDetailEditComponent implements OnInit, CheckDeactivate {
   form!: FormGroup;
   initialFormValue: unknown;
 
@@ -34,12 +40,12 @@ export class ProductDetailEditComponent implements OnInit {
         pluck('name'),
         map((value) => this.productService.getProduct(value)),
         filter((product) => !!product),
-        switchMap((product) => of(this.initForm(product)))
+        switchMap((product) => of(this.pathValueForm(product)))
       )
       .subscribe((rs) => (this.form = rs));
   }
 
-  initForm(product: IProduct | undefined): FormGroup {
+  pathValueForm(product: IProduct | undefined): FormGroup {
     this.form.patchValue({
       name: product?.name,
       description: product?.description,
@@ -47,5 +53,13 @@ export class ProductDetailEditComponent implements OnInit {
     });
     this.initialFormValue = this.form.value;
     return this.form;
+  }
+
+  CheckDeactivate(): Observable<boolean> {
+    let currentFormValue = this.form.value;
+    const isEdited =
+      JSON.stringify(currentFormValue) !==
+      JSON.stringify(this.initialFormValue);
+    return of(!isEdited || confirm('Do you want to cancel changed?'));
   }
 }

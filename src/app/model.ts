@@ -7,5 +7,5 @@ export interface IProduct {
 export interface IUser {
   username: string;
   password: string;
-  name: string;
+  productName: string;
 }

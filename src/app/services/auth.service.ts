@@ -12,7 +12,7 @@ export class AuthService {
     return of({
       username: 'NguyenThacHung',
       password: '1231234',
-      name: 'productA',
+      productName: 'productA',
     });
   }
 }

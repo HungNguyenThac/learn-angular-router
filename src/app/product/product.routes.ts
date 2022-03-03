@@ -25,6 +25,7 @@ export const productRoutes: Routes = [
       {
         path: 'edit',
         component: ProductDetailEditComponent,
+        canDeactivate: [ArticlesGuard],
       },
     ],
   },

@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   CanActivateChild,
+  CanDeactivate,
   CanLoad,
   Route,
   RouterStateSnapshot,
   UrlSegment,
-  UrlTree,
 } from '@angular/router';
 import { map, Observable, of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { CheckDeactivate } from './../check-deactivate';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ArticlesGuard implements CanActivate, CanActivateChild, CanLoad {
+export class ArticlesGuard
+  implements CanActivateChild, CanLoad, CanDeactivate<CheckDeactivate>
+{
   constructor(private authServies: AuthService) {}
+
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> {
     return this.authServies.currentUser.pipe(
       map((user) => user.username === 'NguyenThacHung')
@@ -34,17 +37,18 @@ export class ArticlesGuard implements CanActivate, CanActivateChild, CanLoad {
     }
 
     return this.authServies.currentUser.pipe(
-      map((auth) => auth.name === targetRoute)
+      map((auth) => auth.productName === targetRoute)
     );
   }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+  canDeactivate(
+    component: CheckDeactivate,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.authServies.currentUser.pipe(
-      map((user) => user.username === 'NguyenThacHung')
-    );
+    // checkDeactivate là 1 interface sẽ tạo ở bước 2
+    return component.CheckDeactivate(currentRoute, currentState, nextState);
   }
 }
 
@@ -52,15 +56,15 @@ export class ArticlesGuard implements CanActivate, CanActivateChild, CanLoad {
 // còn canLoad sẽ vừa chặn next tới url và chặn load data
 // ==> ưu tiên dùng canLoad
 
-/*CanActivate */
-// canActivate sử dụng cho component layout, hoặc module
+/*CanLoad */
+// CanLoad sử dụng cho component layout, hoặc module
 
-// canActivate sẽ giúp chúng ta thực thi logic mà kết quả nhận được là boolean.
+// CanLoad sẽ giúp chúng ta thực thi logic mà kết quả nhận được là boolean.
 // thông qua kết quả boolean, thì có cho phép router đến url đích hay không?
 
-// sử dụng ng g guard 'nameServies' --flat --implements CanActivate để tạo guard services
-// gọi services để lấy data tương ứng và xử lý trong logic của func canActivate(){}
-// bên ngoài routes dãn đến url, thêm key canActivate và trỏ tới guard xử lý
+// sử dụng ng g guard 'nameServies' --flat --implements CanLoad để tạo guard services
+// gọi services để lấy data tương ứng và xử lý trong logic của func CanLoad(){}
+// bên ngoài routes dãn đến url, thêm key CanLoad và trỏ tới guard xử lý
 
 /*CanActivateChild */
 // canActivateChild sẽ thực thi trên các routes child và cho phép chúng ta có thể truy cập tới routes hay không?
@@ -71,4 +75,21 @@ export class ArticlesGuard implements CanActivate, CanActivateChild, CanLoad {
 // canDeActivate sẽ kiểm tra xem có cho phép thoát khỏi component hay không? thường dùng trong trường hợp
 // xử lý form người dùng, nếu người dùng đã thay đổi form thì sẽ ko cho thoát khỏi component và cần xác nhận trước khi thoát khỏi component
 
+// bước 1: ở guard inplemant canDeactivate
+// canDeactivate(
+//   component: CheckDeactivate,
+//   currentRoute: ActivatedRouteSnapshot,
+//   currentState: RouterStateSnapshot,
+//   nextState?: RouterStateSnapshot
+// ): Observable<boolean> {
+/* checkDeactivate là 1 interface sẽ tạo ở bước 2 */
+//   return component.CheckDeactivate(currentRoute, currentState, nextState);
+// }
+
+// bước 2: tạo 1 interface checkDeactivate có các thuộc tính và trả về 1 observable<boolean> như canDeactivate cần
+
+// bước 3: ở component cần CheckDeactivate, implement interface tạo ở bước 2,
+// và thực thi các logic trả về true/false
+
+// bước 4: ở router component cần CheckDeactivate, thêm CanDeactivate=[guard]
 /* nếu return về urltree thì sẽ navigate hoặc redirect đến url mà mình return */

@@ -3,6 +3,7 @@
   <h3>{{ product.description }}</h3>
   <h5>{{ product.size }}</h5>
 
-  <h1 (click)="handleClickEditProduct(product.name)">Edit</h1>
+  <button (click)="handleClickEditProduct(product.name)">edit</button>
 </ng-container>
+<br />
 <a routerLink="/product"> back to product list</a>
