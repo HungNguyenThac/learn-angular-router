@@ -1,15 +1,11 @@
-import { CheckDeactivate } from './../check-deactivate';
-import { filter, map, pluck, Observable, switchMap, of, tap } from 'rxjs';
-import { IProduct } from './../model';
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
-import { ProductService } from './../product.service';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
+import {filter, map, Observable, of, pluck, switchMap} from 'rxjs';
+import {IProduct} from '../model';
+import {ActivatedRoute, Router,} from '@angular/router';
+import {ProductService} from '../product.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {CheckDeactivate} from "../guard/articles.guard";
 
 @Component({
   selector: 'app-product-detail-edit',

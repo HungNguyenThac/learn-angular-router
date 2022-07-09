@@ -1,8 +1,8 @@
-import { map, Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { IProduct } from '../../model';
-import { ProductService } from '../../product.service';
+import {Observable} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {IProduct} from '../../model';
+import {ProductService} from '../../product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -21,4 +21,5 @@ export class ProductListComponent implements OnInit {
   handleClickItem(item: IProduct) {
     this.router.navigate(['/product', item.name]);
   }
+
 }

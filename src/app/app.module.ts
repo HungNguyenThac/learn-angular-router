@@ -13,7 +13,9 @@ import { ProductDetailEditComponent } from './product-detail-edit/product-detail
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {
+      enableTracing: true
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

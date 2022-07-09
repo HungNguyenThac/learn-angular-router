@@ -10,15 +10,27 @@ import {
 } from '@angular/router';
 import { map, Observable, of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { CheckDeactivate } from './../check-deactivate';
+import {FormBuilder} from "@angular/forms";
+
+export interface CheckDeactivate {
+  CheckDeactivate(
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot
+  ): Observable<boolean>;
+}
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticlesGuard
+
   implements CanActivateChild, CanLoad, CanDeactivate<CheckDeactivate>
 {
-  constructor(private authServies: AuthService) {}
+
+  formBuilder!: FormBuilder
+  constructor(private fb: FormBuilder,private authServies: AuthService) {}
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> {
     return this.authServies.currentUser.pipe(
@@ -52,13 +64,13 @@ export class ArticlesGuard
   }
 }
 
+// canActivate dùng cho component
 // sự khác biệt giữa canLoad và canActivate, canActivate sẽ chặn next tới url nhưng vẫn load data.
 // còn canLoad sẽ vừa chặn next tới url và chặn load data
 // ==> ưu tiên dùng canLoad
 
 /*CanLoad */
-// CanLoad sử dụng cho component layout, hoặc module
-
+// CanLoad sử dụng cho layzy load module
 // CanLoad sẽ giúp chúng ta thực thi logic mà kết quả nhận được là boolean.
 // thông qua kết quả boolean, thì có cho phép router đến url đích hay không?
 
